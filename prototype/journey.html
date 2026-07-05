@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anti-Rot | The Journey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .streak-dashboard { padding: 6rem; text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .big-grid { display: grid; grid-template-columns: repeat(15, 1fr); gap: 15px; max-width: 900px; margin: 5rem auto; }
+        .big-cell { width: 100%; aspect-ratio: 1; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); transition: 0.5s; }
+        .big-cell.active { background: #fff; box-shadow: 0 0 30px rgba(255,255,255,0.3); transform: scale(1.05); }
+        .stat-row { display: flex; gap: 4rem; margin-top: 2rem; }
+        .stat-item h3 { font-family: 'Instrument Serif', serif; font-size: 3rem; font-weight: 400; font-style: italic; }
+        .stat-item p { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--text-dim); text-transform: uppercase; margin-top: 0.5rem; }
+    </style>
+</head>
+<body>
+    <div class="viewport">
+        <div class="page-container">
+            <div class="streak-dashboard">
+                <span class="tagline">Neural Resilience Log</span>
+                <h1 style="font-size: 5.5rem;">14 Days of Clarity.</h1>
+
+                <div class="stat-row">
+                    <div class="stat-item">
+                        <h3>14</h3>
+                        <p>Total Sessions</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>08:42</h3>
+                        <p>Focus Hours</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>06</h3>
+                        <p>Topics Explored</p>
+                    </div>
+                </div>
+
+                <div class="big-grid">
+                    <div class="big-cell active"></div><div class="big-cell active"></div><div class="big-cell active"></div><div class="big-cell"></div>
+                    <div class="big-cell active"></div><div class="big-cell active"></div><div class="big-cell active"></div><div class="big-cell active"></div>
+                    <div class="big-cell active"></div><div class="big-cell"></div><div class="big-cell active"></div><div class="big-cell active"></div>
+                    <div class="big-cell active"></div><div class="big-cell active"></div><div class="big-cell active"></div>
+                </div>
+
+                <a href="home.html" class="btn-pill">RETURN TO HUB</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+openapi: 3.1.0
+info:
+  title: Anti-Rot API
+  version: 1.0.0
+  description: >
+    Contract between frontend/ and backend/. The only coupling between the two.
+    One curated, finite, human-made piece per session; provenance always present.
+servers:
+  - url: /api/v1
+
+paths:
+  /health:
+    get:
+      summary: Liveness check
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    example: ok
+
+  /session/piece:
+    get:
+      summary: Get the single piece for this session
+      description: >
+        State omitted = check-in skipped (always allowed). Interests omitted =
+        "surprise me". Returns exactly one piece, the loop is finite by design.
+      operationId: getSessionPiece
+      parameters:
+        - name: state
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/CheckInState'
+        - name: interests
+          in: query
+          required: false
+          description: Comma-separated topic list
+          schema:
+            type: string
+            example: electronics,history
+      responses:
+        '200':
+          description: The session's piece
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Piece'
+        '400':
+          $ref: '#/components/responses/Error'
+        '404':
+          $ref: '#/components/responses/Error'
+        '500':
+          $ref: '#/components/responses/Error'
+
+components:
+  schemas:
+    CheckInState:
+      type: string
+      enum: [restless, doomscrolling, unmotivated, seeking_focus, just_curious]
+
+    Piece:
+      type: object
+      required: [id, title, gap_hook, topic, difficulty, format, url, creator, source]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        gap_hook:
+          type: string
+          description: The named curiosity gap this piece opens
+        topic:
+          type: string
+        difficulty:
+          type: integer
+          minimum: 1
+          maximum: 5
+        format:
+          type: string
+          enum: [read, audio]
+        url:
+          type: string
+          format: uri
+        creator:
+          type: string
+          description: Human creator, never empty (Principle II)
+        source:
+          type: string
+          description: Publication / site of origin, never empty
+
+    ApiError:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              example: invalid_state
+            message:
+              type: string
+
+  responses:
+    Error:
+      description: Error envelope (single shape API-wide)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApiError'

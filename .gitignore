@@ -1,0 +1,23 @@
+# Node
+node_modules/
+dist/
+*.local
+
+# Go
+backend/bin/
+*.test
+coverage.out
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+*.log
+
+# Internal docs / agent config — not shipped
+.claude/
+.specify/
+*.md

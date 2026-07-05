@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { CheckIn } from './features/checkin/CheckIn';
+import { MoodEntry } from './features/checkin/MoodEntry';
 import { getSessionPiece, type CheckInState, type Piece } from './lib/api/client';
 
 export default function App() {
   const [piece, setPiece] = useState<Piece | null>(null);
+  const [writing, setWriting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const startSession = (state?: CheckInState) => {
     setError(null);
+    setWriting(false);
     getSessionPiece(state)
       .then(setPiece)
       .catch((e: unknown) => setError(e instanceof Error ? e.message : 'request failed'));
@@ -30,8 +33,10 @@ export default function App() {
             That's my session, done for today
           </button>
         </section>
+      ) : writing ? (
+        <MoodEntry onDone={startSession} onBack={() => setWriting(false)} />
       ) : (
-        <CheckIn onSelect={startSession} />
+        <CheckIn onSelect={startSession} onWrite={() => setWriting(true)} />
       )}
       {error && <p role="alert">{error}</p>}
     </main>

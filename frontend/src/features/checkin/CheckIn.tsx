@@ -10,10 +10,11 @@ const STATES: { value: CheckInState; label: string }[] = [
 
 interface Props {
   onSelect: (state?: CheckInState) => void;
+  onWrite: () => void;
 }
 
 // Skippable, with a "surprise me" path (Principle IV).
-export function CheckIn({ onSelect }: Props) {
+export function CheckIn({ onSelect, onWrite }: Props) {
   return (
     <section aria-label="Spirit check">
       <span className="tagline">Welcome back, human</span>
@@ -27,6 +28,9 @@ export function CheckIn({ onSelect }: Props) {
         ))}
         <button className="check-btn" onClick={() => onSelect(undefined)}>
           Surprise me
+        </button>
+        <button className="check-btn" onClick={onWrite}>
+          Write it out
         </button>
       </div>
       <button className="skip-link" onClick={() => onSelect(undefined)}>

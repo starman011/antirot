@@ -4,16 +4,18 @@
 
 :root {
   /* Glass surfaces */
-  --glass: rgba(255, 255, 255, 0.12);
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-strong: rgba(255, 255, 255, 0.15);
   --glass-border: rgba(255, 255, 255, 0.2);
   --glass-blur: 40px;
 
   /* Text */
   --text: #ffffff;
   --text-dim: rgba(255, 255, 255, 0.5);
+  --accent: #ff8c42;
 
   /* Background fallback behind immersive imagery */
-  --bg-deep: #0b1016;
+  --bg-deep: #000000;
 
   /* Typography */
   --font-heading: 'Instrument Serif', serif;
@@ -26,9 +28,9 @@
   --measure: 65ch; /* reading line length, constitution Product Constraints */
 
   /* Shape & motion */
-  --radius-panel: 32px;
-  --radius-control: 14px;
-  --radius-pill: 999px;
-  --ease-soft: cubic-bezier(0.25, 0.8, 0.25, 1);
-  --duration-soft: 0.5s;
+  --radius-panel: 56px;
+  --radius-control: 28px;
+  --radius-pill: 100px;
+  --ease-soft: cubic-bezier(0.23, 1, 0.32, 1);
+  --duration-soft: 0.6s;
 }

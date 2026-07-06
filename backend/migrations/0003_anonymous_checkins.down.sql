@@ -1,0 +1,2 @@
+DELETE FROM checkins WHERE user_id IS NULL;
+ALTER TABLE checkins ALTER COLUMN user_id SET NOT NULL;

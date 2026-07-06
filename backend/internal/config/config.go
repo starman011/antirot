@@ -15,12 +15,18 @@ const (
 )
 
 type Config struct {
-	Port int
-	Env  Env
+	Port        int
+	Env         Env
+	DatabaseURL string
 }
 
 func Load() (Config, error) {
 	cfg := Config{Port: 8080, Env: EnvDev}
+
+	cfg.DatabaseURL = os.Getenv("DATABASE_URL")
+	if cfg.DatabaseURL == "" {
+		return Config{}, fmt.Errorf("config: DATABASE_URL is required")
+	}
 
 	if v := os.Getenv("PORT"); v != "" {
 		p, err := strconv.Atoi(v)

@@ -1,4 +1,4 @@
-// Typed API client, the only place the frontend talks to the backend. Shapes mirror api/openapi.yaml.
+// Typed API client, the only place the frontend talks to the backend. Shapes mirror backend/api/openapi.yaml.
 
 export type CheckInState =
   | 'restless'

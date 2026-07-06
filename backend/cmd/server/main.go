@@ -32,9 +32,14 @@ func run() error {
 		return err
 	}
 
-	pieces := repository.NewMemoryPieceRepository()
-	sessions := service.NewSessionService(pieces)
-	checkins := service.NewCheckInService(repository.NewMemoryCheckInRepository())
+	pool, err := repository.NewPool(context.Background(), cfg.DatabaseURL)
+	if err != nil {
+		return err
+	}
+	defer pool.Close()
+
+	sessions := service.NewSessionService(repository.NewPostgresPieceRepository(pool))
+	checkins := service.NewCheckInService(repository.NewPostgresCheckInRepository(pool))
 	router := controller.NewRouter(sessions, checkins)
 
 	srv := &http.Server{

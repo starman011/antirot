@@ -1,20 +1,40 @@
 package controller
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
-	"github.com/starman011/antirot/backend/internal/repository"
+	"github.com/starman011/antirot/backend/internal/domain"
 	"github.com/starman011/antirot/backend/internal/service"
 )
 
+type stubPieceRepo struct{}
+
+func (stubPieceRepo) FindByTopics(_ context.Context, _ []string) ([]domain.Piece, error) {
+	return []domain.Piece{{
+		ID: "p1", Title: "The Vacuum Tube", GapHook: "hook", Topic: "electronics",
+		Difficulty: 2, Format: domain.FormatRead, URL: "https://example.org",
+		Creator: "A. Human", Source: "example.org",
+	}}, nil
+}
+
+type stubCheckInRepo struct{}
+
+func (stubCheckInRepo) Save(_ context.Context, c domain.CheckIn) (domain.CheckIn, error) {
+	c.ID = "c1"
+	c.CreatedAt = time.Now().UTC()
+	return c, nil
+}
+
 func testRouter() http.Handler {
 	return NewRouter(
-		service.NewSessionService(repository.NewMemoryPieceRepository()),
-		service.NewCheckInService(repository.NewMemoryCheckInRepository()),
+		service.NewSessionService(stubPieceRepo{}),
+		service.NewCheckInService(stubCheckInRepo{}),
 	)
 }
 

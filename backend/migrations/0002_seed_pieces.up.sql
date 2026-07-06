@@ -1,0 +1,10 @@
+-- Hand-curated human-made pieces (T103). Re-verify links before launch.
+INSERT INTO pieces (title, gap_hook, topic, difficulty, format, url, creator, source) VALUES
+('Mechanical Watch', 'How can a machine with no battery keep time for days, powered by a wrist flick?', 'electronics', 3, 'read', 'https://ciechanow.ski/mechanical-watch/', 'Bartosz Ciechanowski', 'ciechanow.ski'),
+('How Vacuum Tubes Work', 'Ever wondered why vacuum tubes are back in high-end audio?', 'electronics', 2, 'read', 'https://www.explainthatstuff.com/howvalveswork.html', 'Chris Woodford', 'explainthatstuff.com'),
+('Why Robot Hands Are So Hard', 'Robots can beat you at chess but not at picking up the chess piece. Why?', 'robotics', 2, 'read', 'https://spectrum.ieee.org/robot-hands', 'IEEE Spectrum staff', 'spectrum.ieee.org'),
+('The Longitude Problem', 'For 300 years, not knowing where you were east-west killed sailors by the thousand. A carpenter''s clock fixed it.', 'history', 1, 'read', 'https://www.rmg.co.uk/stories/topics/longitude-found-john-harrison', 'Royal Museums Greenwich', 'rmg.co.uk'),
+('Why Does an Octave Sound ''The Same''?', 'Two notes, double the frequency, and every culture on earth hears them as one. What is your brain doing?', 'music', 2, 'read', 'https://www.ethanhein.com/wp/2021/octave-equivalence/', 'Ethan Hein', 'ethanhein.com'),
+('The Farthest Human-Made Object', 'Voyager 1 runs on 1970s hardware with less memory than your car key. It is still phoning home from interstellar space.', 'space', 1, 'read', 'https://science.nasa.gov/mission/voyager/', 'NASA Voyager team', 'science.nasa.gov'),
+('Steal Like an Artist', 'Every artist you admire started by copying. Where is the line between stealing and becoming?', 'art', 1, 'read', 'https://austinkleon.com/steal/', 'Austin Kleon', 'austinkleon.com'),
+('How Trees Talk to Each Other', 'Under every forest floor is a fungal network trading sugar and warnings between trees. A wood-wide web.', 'nature', 2, 'read', 'https://www.ted.com/talks/suzanne_simard_how_trees_talk_to_each_other', 'Suzanne Simard', 'ted.com');

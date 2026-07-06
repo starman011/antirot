@@ -2,7 +2,10 @@ package config
 
 import "testing"
 
+const testDB = "postgres://localhost:5432/antirot"
+
 func TestLoadDefaults(t *testing.T) {
+	t.Setenv("DATABASE_URL", testDB)
 	t.Setenv("PORT", "")
 	t.Setenv("APP_ENV", "")
 
@@ -18,7 +21,15 @@ func TestLoadDefaults(t *testing.T) {
 	}
 }
 
+func TestLoadMissingDatabaseURL(t *testing.T) {
+	t.Setenv("DATABASE_URL", "")
+	if _, err := Load(); err == nil {
+		t.Error("Load() without DATABASE_URL: want error, got nil")
+	}
+}
+
 func TestLoadInvalidPort(t *testing.T) {
+	t.Setenv("DATABASE_URL", testDB)
 	for _, bad := range []string{"abc", "0", "70000", "-1"} {
 		t.Setenv("PORT", bad)
 		if _, err := Load(); err == nil {
@@ -28,6 +39,7 @@ func TestLoadInvalidPort(t *testing.T) {
 }
 
 func TestLoadInvalidEnv(t *testing.T) {
+	t.Setenv("DATABASE_URL", testDB)
 	t.Setenv("PORT", "")
 	t.Setenv("APP_ENV", "staging")
 	if _, err := Load(); err == nil {

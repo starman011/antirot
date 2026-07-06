@@ -15,15 +15,16 @@ function interpretMood(text: string): CheckInState {
 
 interface Props {
   onDone: (state: CheckInState) => void;
-  onBack: () => void;
+  onSkip: () => void;
 }
 
-export function MoodEntry({ onDone, onBack }: Props) {
+// Skippable, with a "surprise me" path (Principle IV).
+export function MoodEntry({ onDone, onSkip }: Props) {
   const [text, setText] = useState('');
 
   return (
     <section aria-label="Write how you feel">
-      <span className="tagline">In your own words</span>
+      <span className="tagline">Welcome back, human</span>
       <h1>How are you, really?</h1>
       <div className="mood-stage">
         <Strands
@@ -58,8 +59,8 @@ export function MoodEntry({ onDone, onBack }: Props) {
         <button className="btn-pill" disabled={!text.trim()} onClick={() => onDone(interpretMood(text))}>
           Interpret and curate
         </button>
-        <button className="skip-link" onClick={onBack}>
-          Back
+        <button className="skip-link" onClick={onSkip}>
+          Skip, surprise me
         </button>
       </div>
     </section>

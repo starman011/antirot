@@ -61,10 +61,41 @@ body::before {
     linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
     url('/img/forest.jpg') center / cover;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  gap: 1.5rem;
+  padding: 2rem 3rem 3rem;
   animation: zoomOut 20s infinite alternate ease-in-out;
+}
+
+.top-nav {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  padding: 1.1rem 2.5rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid var(--glass-border);
+  z-index: 100;
+}
+
+.nav-link {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color var(--duration-soft) var(--ease-soft);
+}
+
+.nav-link:hover,
+.nav-link:focus-visible,
+.nav-link.active {
+  color: var(--text);
 }
 
 @keyframes zoomOut {
@@ -79,7 +110,8 @@ body::before {
 .page-container {
   width: 100%;
   max-width: 1200px;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(80px);
   -webkit-backdrop-filter: blur(80px);
@@ -306,6 +338,165 @@ h1 {
   display: flex;
   align-items: center;
   gap: 2.5rem;
+}
+
+.page-inner {
+  height: 100%;
+  overflow-y: auto;
+  padding: clamp(2.5rem, 5vw, 5rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.page-inner.centered {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose p {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 2.5rem;
+}
+
+.chip {
+  padding: 0.8rem 1.6rem;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-soft) var(--ease-soft);
+}
+
+.chip:hover,
+.chip:focus-visible {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.chip.selected {
+  background: #fff;
+  color: #000;
+}
+
+.result-card {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  border-radius: var(--radius-control);
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.result-card .dim,
+.result-card .provenance {
+  margin-bottom: 0;
+}
+
+.result-title {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 2.2rem;
+}
+
+.composer {
+  position: relative;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.composer-input {
+  position: static;
+  transform: none;
+  width: 100%;
+  max-width: var(--measure);
+}
+
+.post-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.post {
+  padding: 1.6rem 2rem;
+  border-radius: var(--radius-control);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+}
+
+.post .provenance {
+  margin-bottom: 0.6rem;
+}
+
+.post p {
+  font-weight: 200;
+  line-height: 1.7;
+  max-width: var(--measure);
+}
+
+.stat-row {
+  display: flex;
+  gap: 4rem;
+  margin: 2rem 0 3rem;
+}
+
+.stat-item h3 {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.stat-item p {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.streak-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  max-width: 700px;
+}
+
+.streak-cell {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 900px) {

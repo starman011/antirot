@@ -25,7 +25,7 @@ export function MoodEntry({ onDone, onBack }: Props) {
     <section aria-label="Write how you feel">
       <span className="tagline">In your own words</span>
       <h1>How are you, really?</h1>
-      <div style={{ width: '100%', height: '600px', position: 'relative' }}>
+      <div className="mood-stage">
         <Strands
           colors={['#5d1b8d', '#88cc20', '#0064f2']}
           count={3}
@@ -55,7 +55,7 @@ export function MoodEntry({ onDone, onBack }: Props) {
         />
       </div>
       <div className="mood-actions">
-        <button className="check-btn" disabled={!text.trim()} onClick={() => onDone(interpretMood(text))}>
+        <button className="btn-pill" disabled={!text.trim()} onClick={() => onDone(interpretMood(text))}>
           Interpret and curate
         </button>
         <button className="skip-link" onClick={onBack}>

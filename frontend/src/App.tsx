@@ -17,28 +17,43 @@ export default function App() {
   };
 
   return (
-    <main className="glass-panel">
-      {piece ? (
-        <section aria-label="Your piece">
-          <span className="tagline">Daily geek-out // {piece.topic}</span>
-          <h1>{piece.title}</h1>
-          <p className="dim">{piece.gap_hook}</p>
-          <p className="provenance">
-            By {piece.creator} · {piece.source}
-          </p>
-          <a className="check-btn" href={piece.url} target="_blank" rel="noreferrer">
-            {piece.format === 'audio' ? 'Listen' : 'Read'}
-          </a>
-          <button className="skip-link" onClick={() => setPiece(null)}>
-            That's my session, done for today
-          </button>
-        </section>
-      ) : writing ? (
-        <MoodEntry onDone={startSession} onBack={() => setWriting(false)} />
-      ) : (
-        <CheckIn onSelect={startSession} onWrite={() => setWriting(true)} />
-      )}
-      {error && <p role="alert">{error}</p>}
-    </main>
+    <div className="viewport">
+      <main className="page-container">
+        <div className="split-layout">
+          <aside className="visual-soul" style={{ backgroundImage: "url('/img/tech.jpg')" }}>
+            <span className="tagline">
+              {piece ? `Daily geek-out // ${piece.topic}` : 'The Sanctuary'}
+            </span>
+            <h2>{piece ? piece.title : 'Step into the silence.'}</h2>
+          </aside>
+
+          <section className="flow-soul">
+            {piece ? (
+              <>
+                <span className="tagline">{piece.topic} · Human curated</span>
+                <h1>{piece.title}</h1>
+                <p className="dim">{piece.gap_hook}</p>
+                <p className="provenance">
+                  By {piece.creator} · {piece.source}
+                </p>
+                <div className="session-actions">
+                  <a className="btn-pill" href={piece.url} target="_blank" rel="noreferrer">
+                    {piece.format === 'audio' ? 'Listen' : 'Read'}
+                  </a>
+                  <button className="skip-link" onClick={() => setPiece(null)}>
+                    Complete session
+                  </button>
+                </div>
+              </>
+            ) : writing ? (
+              <MoodEntry onDone={startSession} onBack={() => setWriting(false)} />
+            ) : (
+              <CheckIn onSelect={startSession} onWrite={() => setWriting(true)} />
+            )}
+            {error && <p role="alert">{error}</p>}
+          </section>
+        </div>
+      </main>
+    </div>
   );
 }

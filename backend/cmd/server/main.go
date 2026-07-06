@@ -34,7 +34,8 @@ func run() error {
 
 	pieces := repository.NewMemoryPieceRepository()
 	sessions := service.NewSessionService(pieces)
-	router := controller.NewRouter(sessions)
+	checkins := service.NewCheckInService(repository.NewMemoryCheckInRepository())
+	router := controller.NewRouter(sessions, checkins)
 
 	srv := &http.Server{
 		Addr:              fmt.Sprintf(":%d", cfg.Port),

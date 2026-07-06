@@ -4,6 +4,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"math/rand/v2"
 
 	"github.com/starman011/antirot/backend/internal/domain"
 )
@@ -22,7 +23,7 @@ func NewSessionService(pieces PieceRepository) *SessionService {
 	return &SessionService{pieces: pieces}
 }
 
-// PickPiece uses first-match for the MVP; taste-graph ranking arrives in Phase 3.
+// PickPiece picks uniformly among matches for the MVP; taste-graph ranking arrives in Phase 3.
 func (s *SessionService) PickPiece(ctx context.Context, state domain.State, interests []string) (domain.Piece, error) {
 	if !state.Valid() {
 		return domain.Piece{}, fmt.Errorf("session: invalid state %q", state)
@@ -35,7 +36,7 @@ func (s *SessionService) PickPiece(ctx context.Context, state domain.State, inte
 	if len(candidates) == 0 {
 		return domain.Piece{}, ErrNoPiece
 	}
-	return candidates[0], nil
+	return candidates[rand.IntN(len(candidates))], nil
 }
 
 var ErrNoPiece = fmt.Errorf("session: no curated piece available")

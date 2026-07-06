@@ -39,9 +39,11 @@ export class ApiRequestError extends Error {
 
 const BASE = import.meta.env.VITE_API_BASE_URL ?? '/api/v1';
 
-async function request<T>(path: string): Promise<T> {
+async function request<T>(path: string, body?: object): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
-    headers: { Accept: 'application/json' },
+    method: body ? 'POST' : 'GET',
+    headers: { Accept: 'application/json', ...(body && { 'Content-Type': 'application/json' }) },
+    ...(body && { body: JSON.stringify(body) }),
   });
 
   if (!res.ok) {
@@ -65,4 +67,13 @@ export function getSessionPiece(state?: CheckInState, interests?: string[]): Pro
 
 export function getHealth(): Promise<{ status: string }> {
   return request<{ status: string }>(`/health`);
+}
+
+/** Mood text is interpreted server-side and discarded, never stored. */
+export function interpretMood(text: string): Promise<CheckInState> {
+  return request<{ state: CheckInState }>(`/interpret`, { text }).then((r) => r.state);
+}
+
+export function postCheckIn(state: CheckInState): Promise<void> {
+  return request<{ id: string }>(`/checkins`, { state }).then(() => undefined);
 }

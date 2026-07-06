@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/starman011/antirot/backend/internal/repository"
@@ -11,7 +12,10 @@ import (
 )
 
 func testRouter() http.Handler {
-	return NewRouter(service.NewSessionService(repository.NewMemoryPieceRepository()))
+	return NewRouter(
+		service.NewSessionService(repository.NewMemoryPieceRepository()),
+		service.NewCheckInService(repository.NewMemoryCheckInRepository()),
+	)
 }
 
 func TestHealth(t *testing.T) {
@@ -52,6 +56,45 @@ func TestSessionPieceInvalidState(t *testing.T) {
 
 	if rec.Code != http.StatusBadRequest {
 		t.Fatalf("status = %d, want 400", rec.Code)
+	}
+}
+
+func TestCheckInCreate(t *testing.T) {
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/checkins", strings.NewReader(`{"state":"restless"}`))
+	testRouter().ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusCreated {
+		t.Fatalf("status = %d, want 201; body: %s", rec.Code, rec.Body.String())
+	}
+}
+
+func TestCheckInInvalidState(t *testing.T) {
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/checkins", strings.NewReader(`{"state":"angry"}`))
+	testRouter().ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusBadRequest {
+		t.Fatalf("status = %d, want 400", rec.Code)
+	}
+}
+
+func TestInterpret(t *testing.T) {
+	rec := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodPost, "/api/v1/interpret", strings.NewReader(`{"text":"cant stop scrolling reels"}`))
+	testRouter().ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, want 200; body: %s", rec.Code, rec.Body.String())
+	}
+	var got struct {
+		State string `json:"state"`
+	}
+	if err := json.Unmarshal(rec.Body.Bytes(), &got); err != nil {
+		t.Fatalf("decode: %v", err)
+	}
+	if got.State != "doomscrolling" {
+		t.Errorf("state = %q, want doomscrolling", got.State)
 	}
 }
 

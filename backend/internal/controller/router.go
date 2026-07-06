@@ -9,13 +9,17 @@ import (
 	"github.com/starman011/antirot/backend/internal/service"
 )
 
-func NewRouter(sessions *service.SessionService) http.Handler {
+func NewRouter(sessions *service.SessionService, checkins *service.CheckInService) http.Handler {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("GET /api/v1/health", handleHealth)
 
 	sc := &sessionController{sessions: sessions}
 	mux.HandleFunc("GET /api/v1/session/piece", sc.handlePiece)
+
+	cc := &checkinController{checkins: checkins}
+	mux.HandleFunc("POST /api/v1/checkins", cc.handleCreate)
+	mux.HandleFunc("POST /api/v1/interpret", cc.handleInterpret)
 
 	return recoverer(securityHeaders(requestLogger(mux)))
 }

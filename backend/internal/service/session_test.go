@@ -28,8 +28,8 @@ func TestPickPieceReturnsOne(t *testing.T) {
 	if err != nil {
 		t.Fatalf("PickPiece() error = %v", err)
 	}
-	if got.ID != "p1" {
-		t.Errorf("PickPiece() ID = %q, want p1", got.ID)
+	if got.ID != "p1" && got.ID != "p2" {
+		t.Errorf("PickPiece() ID = %q, want one of the candidates", got.ID)
 	}
 }
 

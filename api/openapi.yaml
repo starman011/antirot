@@ -60,6 +60,71 @@ paths:
         '500':
           $ref: '#/components/responses/Error'
 
+  /checkins:
+    post:
+      summary: Record a state check-in
+      operationId: createCheckIn
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [state]
+              properties:
+                state:
+                  $ref: '#/components/schemas/CheckInState'
+      responses:
+        '201':
+          description: Check-in recorded
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [id, state, created_at]
+                properties:
+                  id:
+                    type: string
+                  state:
+                    $ref: '#/components/schemas/CheckInState'
+                  created_at:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/Error'
+
+  /interpret:
+    post:
+      summary: Interpret free-text mood into a check-in state
+      description: >
+        Seam for the recommendation agent. Text is interpreted and discarded,
+        never stored.
+      operationId: interpretMood
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [text]
+              properties:
+                text:
+                  type: string
+                  maxLength: 4000
+      responses:
+        '200':
+          description: Interpreted state
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [state]
+                properties:
+                  state:
+                    $ref: '#/components/schemas/CheckInState'
+        '400':
+          $ref: '#/components/responses/Error'
+
 components:
   schemas:
     CheckInState:

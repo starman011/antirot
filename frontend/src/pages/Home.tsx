@@ -1,18 +1,29 @@
 import { useState } from 'react';
 import Strands from '../components/Strands';
-import { interpretMood } from '../features/checkin/interpret';
-import { getSessionPiece, type CheckInState, type Piece } from '../lib/api/client';
+import {
+  getSessionPiece,
+  interpretMood,
+  postCheckIn,
+  type CheckInState,
+  type Piece,
+} from '../lib/api/client';
 
 export function Home() {
   const [text, setText] = useState('');
   const [piece, setPiece] = useState<Piece | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const fail = (e: unknown) => setError(e instanceof Error ? e.message : 'request failed');
+
   const startSession = (state?: CheckInState) => {
     setError(null);
-    getSessionPiece(state)
-      .then(setPiece)
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : 'request failed'));
+    if (state) postCheckIn(state).catch(() => undefined);
+    getSessionPiece(state).then(setPiece).catch(fail);
+  };
+
+  const interpretAndStart = () => {
+    setError(null);
+    interpretMood(text).then(startSession).catch(fail);
   };
 
   if (piece) {
@@ -67,7 +78,7 @@ export function Home() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && text.trim()) startSession(interpretMood(text));
+          if (e.key === 'Enter' && text.trim()) interpretAndStart();
         }}
         placeholder="What do you feel?"
         aria-label="What do you feel?"

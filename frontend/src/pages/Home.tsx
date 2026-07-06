@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { MoodEntry } from '../features/checkin/MoodEntry';
+import Strands from '../components/Strands';
+import { interpretMood } from '../features/checkin/interpret';
 import { getSessionPiece, type CheckInState, type Piece } from '../lib/api/client';
 
 export function Home() {
+  const [text, setText] = useState('');
   const [piece, setPiece] = useState<Piece | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -13,36 +15,67 @@ export function Home() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : 'request failed'));
   };
 
-  return (
-    <div className="split-layout">
-      <aside className="visual-soul" style={{ backgroundImage: "url('/img/tech.jpg')" }}>
-        <span className="tagline">{piece ? `Daily geek-out // ${piece.topic}` : 'The Sanctuary'}</span>
-        <h2>{piece ? piece.title : 'Step into the silence.'}</h2>
-      </aside>
-
-      <section className="flow-soul">
-        {piece ? (
-          <>
-            <span className="tagline">{piece.topic} · Human curated</span>
-            <h1>{piece.title}</h1>
-            <p className="dim">{piece.gap_hook}</p>
-            <p className="provenance">
-              By {piece.creator} · {piece.source}
-            </p>
-            <div className="session-actions">
-              <a className="btn-pill" href={piece.url} target="_blank" rel="noreferrer">
-                {piece.format === 'audio' ? 'Listen' : 'Read'}
-              </a>
-              <button className="skip-link" onClick={() => setPiece(null)}>
-                Complete session
-              </button>
-            </div>
-          </>
-        ) : (
-          <MoodEntry onDone={startSession} onSkip={() => startSession(undefined)} />
-        )}
+  if (piece) {
+    return (
+      <div className="home-stage">
+        <span className="tagline">{piece.topic} · Human curated</span>
+        <h1>{piece.title}</h1>
+        <p className="dim">{piece.gap_hook}</p>
+        <p className="provenance">
+          By {piece.creator} · {piece.source}
+        </p>
+        <div className="session-actions">
+          <a className="btn-pill" href={piece.url} target="_blank" rel="noreferrer">
+            {piece.format === 'audio' ? 'Listen' : 'Read'}
+          </a>
+          <button className="skip-link" onClick={() => setPiece(null)}>
+            Complete session
+          </button>
+        </div>
         {error && <p role="alert">{error}</p>}
-      </section>
+      </div>
+    );
+  }
+
+  return (
+    <div className="home-stage">
+      <div className="orb-stage">
+        <Strands
+          colors={['#5d1b8d', '#88cc20', '#0064f2']}
+          count={3}
+          speed={0.4}
+          amplitude={1.7}
+          waviness={1.6}
+          thickness={0.5}
+          glow={0.7}
+          taper={2.8}
+          spread={0.5}
+          intensity={0.6}
+          saturation={2}
+          opacity={1}
+          scale={1.5}
+          glass
+          refraction={3}
+          dispersion={1.5}
+          glassSize={1}
+          hueShift={0}
+        />
+      </div>
+      <input
+        className="feel-bar"
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && text.trim()) startSession(interpretMood(text));
+        }}
+        placeholder="What do you feel?"
+        aria-label="What do you feel?"
+      />
+      <button className="skip-link" onClick={() => startSession(undefined)}>
+        Surprise me
+      </button>
+      {error && <p role="alert">{error}</p>}
     </div>
   );
 }

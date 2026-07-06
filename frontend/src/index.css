@@ -69,6 +69,60 @@ body::before {
   animation: zoomOut 20s infinite alternate ease-in-out;
 }
 
+.viewport.bare {
+  background: #000;
+  animation: none;
+}
+
+.page-container.bare {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: none;
+}
+
+.home-stage {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.8rem;
+  padding: 1rem;
+}
+
+.orb-stage {
+  position: relative;
+  width: min(62vh, 90vw);
+  aspect-ratio: 1;
+}
+
+.feel-bar {
+  width: min(52ch, 92%);
+  padding: 1.3rem 2rem;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  outline: none;
+  transition: border-color var(--duration-soft) var(--ease-soft);
+}
+
+.feel-bar::placeholder {
+  color: var(--text-dim);
+}
+
+.feel-bar:focus-visible {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
 .top-nav {
   display: flex;
   align-items: center;
